@@ -1,27 +1,19 @@
-{
-  "name": "industryconnect-quality",
-  "version": "1.0.0",
-  "description": "IndustryConnect placement application validator with automated quality checks",
-  "main": "src/applicationValidator.js",
-  "scripts": {
-    "lint": "eslint .",
-    "test": "jest --coverage",
-    "build": "node scripts/build.js"
-  },
-  "jest": {
-    "coverageThreshold": {
-      "global": {
-        "branches": 80,
-        "functions": 80,
-        "lines": 80,
-        "statements": 80
-      }
-    }
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.0.0",
-    "eslint": "^9.0.0",
-    "globals": "^15.0.0",
-    "jest": "^29.7.0"
+// IndustryConnect: checks a student placement application before coordinator review
+const REQUIRED_DOCUMENTS = ["resume", "transcript", "police-check", "placement-agreement"];
+
+function getMissingDocuments(uploadedDocuments) {
+  if (!Array.isArray(uploadedDocuments)) {
+    return [...REQUIRED_DOCUMENTS];
   }
+  const uploaded = uploadedDocuments.map((doc) => String(doc).trim().toLowerCase());
+  return REQUIRED_DOCUMENTS.filter((doc) => !uploaded.includes(doc));
 }
+
+function isReadyForReview(application) {
+  if (!application || application.status !== "submitted") {
+    return false;
+  }
+  return getMissingDocuments(application.documents).length === 0;
+}
+
+module.exports = { REQUIRED_DOCUMENTS, getMissingDocuments, isReadyForReview };
