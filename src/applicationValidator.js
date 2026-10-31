@@ -1,5 +1,5 @@
 // IndustryConnect: checks a student placement application before coordinator review
-const REQUIRED_DOCUMENTS = ["resume", "transcript", "police-check", "placement-agreement"];
+const REQUIRED_DOCUMENTS = ["resume", "transcript", "placement-agreement"];
 
 function getMissingDocuments(uploadedDocuments) {
   if (!Array.isArray(uploadedDocuments)) {
